@@ -1,0 +1,100 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+const { emit } = require("nodemon");
+const app = express();
+
+const users = [
+  {
+    userName: "Hardik",
+    userEmail: "hardiksinh@gmail.com",
+    userAge: 22,
+    userUniqueId: 1,
+  },
+  {
+    userName: "Aditya",
+    userEmail: "aditya@gmail.com",
+    userAge: 23,
+    userUniqueId: 2,
+  },
+  {
+    userName: "Yash",
+    userEmail: "yash@gmail.com",
+    userAge: 24,
+    userUniqueId: 3,
+  },
+];
+
+// body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// templete engine
+app.set("view engine", "ejs");
+
+// define routes
+app.get("/", (req, res) => {
+  res.render("home", {
+    data: users,
+  });
+});
+
+app.post("/", (req, res) => {
+  const inputUserUniqueId = req.body.userUniqueId;
+  const inputUserName = req.body.userName;
+  const inputUserEmail = req.body.userEmail;
+  const inputUserAge = req.body.userAge;
+
+  users.push({
+    userUniqueId: inputUserUniqueId,
+    userName: inputUserName,
+    userEmail: inputUserEmail,
+    userAge: inputUserAge,
+  });
+
+  res.render("home", {
+    data: users,
+  });
+});
+
+// delete
+app.post("/delete", (req, res) => {
+  let requestUserInputUniqueId = req.body.userUniqueId;
+  let j = 0;
+  users.forEach((user) => {
+    j = j + 1;
+    if (user.userUniqueId === requestUserInputUniqueId) {
+      users.splice(j - 1, 1);
+    }
+  });
+
+  res.render("home", {
+    data: users,
+  });
+});
+
+// update
+app.post("/update", (req, res) => {
+  const inputUserUniqueId = req.body.userUniqueId;
+  const inputUserName = req.body.userName;
+  const inputUserEmail = req.body.userEmail;
+  const inputUserAge = req.body.userAge;
+
+  let j = 0;
+
+  users.forEach((user) => {
+    j = j + 1;
+    if (user.userUniqueId === inputUserUniqueId) {
+      user.userUniqueId = inputUserUniqueId;
+      user.userName = inputUserName;
+      user.userEmail = inputUserEmail;
+      user.userAge = inputUserAge;
+    }
+  });
+  res.render("home", {
+    data: users,
+  });
+});
+
+app.listen(5050, (req, res) => {
+  console.log(`app is running on http://localhost:${5050}`);
+});
