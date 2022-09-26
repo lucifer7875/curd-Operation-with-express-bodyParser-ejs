@@ -3,26 +3,7 @@ const bodyParser = require("body-parser");
 const { emit } = require("nodemon");
 const app = express();
 
-const users = [
-  {
-    userName: "Hardik",
-    userEmail: "hardiksinh@gmail.com",
-    userAge: 22,
-    userUniqueId: 1,
-  },
-  {
-    userName: "Aditya",
-    userEmail: "aditya@gmail.com",
-    userAge: 23,
-    userUniqueId: 2,
-  },
-  {
-    userName: "Yash",
-    userEmail: "yash@gmail.com",
-    userAge: 24,
-    userUniqueId: 3,
-  },
-];
+const users = [];
 
 // body-parser
 app.use(bodyParser.json());
